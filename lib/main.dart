@@ -1,8 +1,13 @@
 import 'package:flutter/material.dart';
+// import services package to set preferred device orientation
+import 'package:flutter/services.dart';
 // import home.dart to use it as the home screen for MyApp root widget
 import 'package:recipe_app/views/home.dart';
 
 void main() {
+  SystemChrome.setPreferredOrientations([
+    DeviceOrientation.portraitUp,
+  ]);
   runApp(const MyApp());
 }
 
@@ -16,19 +21,10 @@ class MyApp extends StatelessWidget {
       title: 'Recipe App',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
-        // This is the theme of your application.
-        //
-        // Try running your application with "flutter run". You'll see the
-        // application has a blue toolbar. Then, without quitting the app, try
-        // changing the primarySwatch below to Colors.green and then invoke
-        // "hot reload" (press "r" in the console where you ran "flutter run",
-        // or simply save your changes to "hot reload" in a Flutter IDE).
-        // Notice that the counter didn't reset back to zero; the application
-        // is not restarted.
         primarySwatch: Colors.blue,
       ),
       // use HomePage widget from separate file from views folder as home screen
-      home: const HomePage(),
+      home: const HomeScreen(),
     );
   }
 }
