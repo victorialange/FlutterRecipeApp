@@ -1,6 +1,8 @@
 // custom recipe widget - this will contain the layout for the recipe card
 
 import 'package:flutter/material.dart';
+// import cached network image package to display images from a URL (can cache and load images from the network, so reduced number of network requests and able to store images in a local cache for increased speed in retrieving data and better performance)
+import 'package:cached_network_image/cached_network_image.dart';
 
 // define class for recipe card storing the initial data
 class RecipeCard extends StatelessWidget {
