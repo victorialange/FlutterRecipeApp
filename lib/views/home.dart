@@ -47,6 +47,21 @@ class _HomeScreenState extends State<HomeScreen> {
       appBar: AppBar(
         title: const Text("Recipe App"),
       ),
+      body: SingleChildScrollView(
+        child: Column(
+          children: [
+            // space between app bar and search bar
+            const SizedBox(height: 16),
+            // using recipe search bar widget, onSearch gets assigned a anonymous function that takes in the user input (string argument) and updates the state of the _recipes list, calling the fetch method defined in the API class, with the user input as the string argument (initial state called fetch method with empty string)
+            RecipeSearchBar(onSearch: (String query) {
+              setState(() {
+                _recipes = _searchRecipes(query: query);
+              });
+            }),
+            // space between search bar and fetch results
+            const SizedBox(height: 16),
+            // fetch results in expanded widget to take up all available space of device
+            // have one list of results take up a limited amount of height for more rows
             SingleChildScrollView(
               child: SizedBox(
                 height: 250,
