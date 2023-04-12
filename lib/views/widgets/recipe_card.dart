@@ -28,7 +28,7 @@ class RecipeCard extends StatelessWidget {
       },
       // recipe card
       child: Card(
-        margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+        margin: const EdgeInsets.symmetric(horizontal: 8, vertical: 8),
         child: Padding(
           padding: const EdgeInsets.all(8),
           child: Column(
@@ -42,6 +42,7 @@ class RecipeCard extends StatelessWidget {
                   width: double.infinity,
                   height: 150,
                   fit: BoxFit.cover,
+                  // account for error loading image with icon as placeholder
                   errorWidget: (context, url, error) => const Icon(Icons.error),
                 ),
               ),
