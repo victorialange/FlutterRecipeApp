@@ -5,9 +5,6 @@ import 'package:flutter/services.dart';
 import 'package:recipe_app/views/home.dart';
 
 void main() {
-  SystemChrome.setPreferredOrientations([
-    DeviceOrientation.portraitUp,
-  ]);
   runApp(const MyApp());
 }
 
