@@ -1,4 +1,4 @@
-// this will be the home screen (gets imported into MyApp)
+// this will be the home screen UI where all the other custom widgets with the relevant data gets displayed
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 // import recipe model
@@ -43,25 +43,72 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Row(
-          // center text and icon
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Icon(Icons.restaurant_menu),
-            // add space between icon and text by adding sized box widget
-            SizedBox(width: 10),
-            Text("Tasty Recipes"),
-          ],
-        ),
+        title: const Text("Recipe App"),
       ),
-      body: RecipeCard(
-          // placeholder info for now
-          title: "Random Recipe",
-          calories: "500 calories",
-          cookTime: "20 minutes",
-          // vegan smores image placeholder for now
-          thumbnailUrl:
-              "https://edamam-product-images.s3.amazonaws.com/web-img/2fe/2fec4f772f454e5aead7221d6fc4224e.jpg?X-Amz-Security-Token=IQoJb3JpZ2luX2VjEGsaCXVzLWVhc3QtMSJHMEUCIQDftbT0IqhnevorJWg808OYvLPr%2BuLohRZBoVqaCCH6ngIgS06NOf6DbelVgTKWhQIFvK%2FZcPA6KwUhTFWdeDHOspsquQUIVBAAGgwxODcwMTcxNTA5ODYiDN3mp3hKrwgVxyuxDSqWBVg0VxH7PMGddKLSB%2FQs1vISDPnXf%2BNp1K%2Fma0ZXLU7vuqorRnXmw82JUXSk3%2FFvqKejYhFEnHpyi1n%2BHOnXvawvsKNflMNu%2Bz4n756N%2FYbbnsUpUsSq5Ac8EAbaA53PTxaELkJD6kbGSNSxjWapblhzCqgNEv%2BYBqovGFlKz56iSysWYHq22x9PUmj2jr%2BwOG9lUj7kkpWSSHnMbG52dU5QlAajbcmX%2BIYQLMXtvN6XhjlrD3QhCtStwpR4Dt1gu%2BBgNL49qiWH16b0isdxey%2BuqWZsKB8x20wtaz1inm0iWOAX4WfIWW%2BKo6V1S4Bu7I0bXuSI%2FXRHHjAZsbHO9N7gFcgThbDttyf8lOKu3uWxnkf7HoA%2F2hMVrj4mdx5qZDZuh5yS9HtP%2BSnJ61UC5RV1k3xVHtNw2wfpWJUlitb177WU923SLDLbrD9dHTBLIaDEHs7%2F%2FQk%2FJC%2BZwVgRQvijmLWx1DET6jGa8FqvhvDvIJ9md%2FCr65sAIkXf%2BphFPyQwY1L%2Fby3K4KfmRez4DK07%2Bp7A2deGzQg09KDvjSEWXuTih1Rr5Qv4l%2FDn1PMxrZU3Qd%2FxZud28F%2FoWn%2B4zXyhmaYSi%2FEedpcBDmv0sEToFwMPCb9uW6GbYl7k8xUSSNF9%2FZcNe0hLHEAEeTAb9Ski%2FbLcCDkCe5GKIJKQ2GvWDwyJFVs9TpbaP%2FWepCTyNhOFNrWyyZMspm1jpdd6IiZjVlrR7NJdCoNi73lrn3snDnu4hsgPBadsyuPrM%2B%2F8lbu5g53%2F7K0xtGiMiFlLLct2i6by5okCIwmJk3wYagYTvKQBXtdrWF1x9Goy4VQtRoSJtANpmUi1jjp50eGoz1BTiPILQXKfmWf09tHrljYve4PEelEvMOajw6EGOrEBnv45BCfC91vv5HI%2FcgAWsC4ajWYOoE5BVgGXRJvqjX40WAlwLnmx38xNtwQ6UxgDokRTi8mbFN4zoRyigoPVZN9HxTBA05qx%2FAyoD1WViGB%2FMliKr8VSAiq5FtinGxuI611hm1s1AVJj4WBjERHkoYqpL5KH9hzdnRoRVxysMi9gf99SfhZNUCX5QI%2FEyntEFO0tYnTD%2BRkH0NdO8A4FqOUugC9i3otAiSeK%2B4Bd%2BXjs&X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Date=20230408T040257Z&X-Amz-SignedHeaders=host&X-Amz-Expires=3600&X-Amz-Credential=ASIASXCYXIIFEQVCEZOY%2F20230408%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Signature=62d567ebcce619c27b21c6da138b1c6d47296206a70772007a4e06237bd06fe2"),
+      body: Column(
+        children: [
+          // space between app bar and search bar
+          const SizedBox(height: 16),
+          // using recipe search bar widget, onSearch gets assigned a anonymous function that takes in the user input (string argument) and updates the state of the _recipes list, calling the fetch method defined in the API class, with the user input as the string argument (initial state called fetch method with empty string)
+          RecipeSearchBar(onSearch: (String query) {
+            setState(() {
+              _recipes = _searchRecipes(query: query);
+            });
+          }),
+          // space between search bar and fetch results
+          const SizedBox(height: 16),
+          // fetch results in expanded widget to take up all available space of device
+          // have one list of results take up a limited amount of height for more rows
+          SizedBox(
+            height: 250,
+            // LayoutBuilder widget to get the constraints of the parent widget and passing those constraints to ListView, so that it knows how much horizontal space available
+            // wrap recipe card with fixed width of cardWidth (depending on width of the screen)
+            child: LayoutBuilder(
+              builder: (BuildContext context, BoxConstraints constraints) {
+                return FutureBuilder(
+                  future: _recipes,
+                  builder: (BuildContext context, AsyncSnapshot snapshot) {
+                    if (snapshot.hasData) {
+                      // use snapshot data as List<Recipe> widget stored in recipes variable
+                      List<Recipe> recipes = snapshot.data as List<Recipe>;
+                      // define cardWidth based on constraints
+                      double cardWidth = constraints.maxWidth / 1.75;
+                      // double cardWidth =
+                      //     MediaQuery.of(context).size.width * 0.7;
+
+                      // if there is more space available, increase card width
+                      if (constraints.maxWidth >= 600) {
+                        cardWidth = constraints.maxWidth / 4;
+                      }
+                      // return results in scrollable list view
+                      return ListView.builder(
+                        // display results in horizontal scrollable list
+                        scrollDirection: Axis.horizontal,
+                        itemCount: recipes.length,
+                        itemBuilder: (context, index) {
+                          // set size restrictions
+                          return SizedBox(
+                            // height: 50,
+                            width: cardWidth,
+                            // padding: const EdgeInsets.symmetric(horizontal: 8),
+                            child: RecipeCard(recipe: recipes[index]),
+                          );
+                        },
+                      );
+                    }
+                    // if there is an error display the specific error message
+                    else if (snapshot.hasError) {
+                      return Center(child: Text("${snapshot.error}"));
+                    }
+                    // if data hasn't been retreived yet (connectionState is pending/waiting, display progress indicator)
+                    return const Center(child: CircularProgressIndicator());
+                  },
+                );
+              },
+            ),
+          ),
+        ],
+      ),
     );
   }
 }
