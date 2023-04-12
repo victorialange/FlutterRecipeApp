@@ -1,16 +1,44 @@
 // this will be the home screen (gets imported into MyApp)
 import 'package:flutter/material.dart';
-// import custom recipe card widget to use it for the body of this home page
+import 'package:flutter/rendering.dart';
+// import recipe model
+import 'package:recipe_app/models/recipe.dart';
+// import recipe api client
+import 'package:recipe_app/services/recipe_api.dart';
+// import recipe card widget
 import 'package:recipe_app/views/widgets/recipe_card.dart';
+// import recipe search bar widget
+import 'package:recipe_app/views/widgets/recipe_search_bar.dart';
 
-class HomePage extends StatefulWidget {
-  const HomePage({super.key});
+class HomeScreen extends StatefulWidget {
+  const HomeScreen({Key? key}) : super(key: key);
 
   @override
-  _HomePageState createState() => _HomePageState();
+  _HomeScreenState createState() => _HomeScreenState();
 }
 
-class _HomePageState extends State<HomePage> {
+class _HomeScreenState extends State<HomeScreen> {
+  // initialize future list variables _recipes (instance of recipe model)
+  late Future<List<Recipe>> _recipes;
+
+  // define _searchRecipes method that returns a future (recipes list) taking in an optional string argument, where the searchRecipes method gets called on a recipeApi instance with either a string argument or an empty string is the input is null (like this data will appear before the user searches for anything)
+  Future<List<Recipe>> _searchRecipes({String? query}) async {
+    // create new RecipeAPI instance
+    RecipeApi recipeApi = RecipeApi();
+    // call fetch method defined in recipeAPi class
+    List<Recipe> recipes = await recipeApi.searchRecipes(query: query ?? "");
+    // return recipe instance populated with data
+    return recipes;
+  }
+
+  @override
+  // initialize the state
+  void initState() {
+    super.initState();
+    // set the initial state of the _recipes list to the data retrieved from fetch method with an empty string argument
+    _recipes = _searchRecipes(query: "");
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
