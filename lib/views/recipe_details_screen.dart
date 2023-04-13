@@ -19,7 +19,12 @@ class RecipeDetailsScreen extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            Image.network(recipe.image),
+            Image.network(
+              recipe.image,
+              // adding in error image in case image fails to load
+              errorBuilder: (context, error, stackTrace) =>
+                  const Icon(Icons.error),
+            ),
             Padding(
               padding: const EdgeInsets.all(16.0),
               // displaying recipe title user tapped on
