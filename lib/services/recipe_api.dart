@@ -17,7 +17,7 @@ class RecipeApi {
   Future<List<Recipe>> searchRecipes({required String query}) async {
     // only target vegan recipes by specifying health parameter setting it to 'vegan'
     final response = await http.get(Uri.parse(
-        '$_baseUrl?type=public&q=$query&app_id=$_appId&app_key=$_appKey&health=vegan'));
+        '$_baseUrl?type=public&q=$query&app_id=$_appId&app_key=$_appKey&health=vegan&tag=vegan'));
 
     // checking if response status code ok
     if (response.statusCode == 200) {
