@@ -64,7 +64,7 @@ class _HomeScreenState extends State<HomeScreen> {
             // have one list of results take up a limited amount of height for more rows
             SingleChildScrollView(
               child: SizedBox(
-                height: 250,
+                height: 275,
                 // LayoutBuilder widget to get the constraints of the parent widget and passing those constraints to ListView, so that it knows how much horizontal space available
                 // wrap recipe card with fixed width of cardWidth (depending on width of the screen)
                 child: LayoutBuilder(
@@ -76,13 +76,13 @@ class _HomeScreenState extends State<HomeScreen> {
                           // use snapshot data as List<Recipe> widget stored in recipes variable
                           List<Recipe> recipes = snapshot.data as List<Recipe>;
                           // define cardWidth based on constraints
-                          double cardWidth = constraints.maxWidth / 1.75;
+                          double cardWidth = constraints.maxWidth / 1.5;
                           // double cardWidth =
                           //     MediaQuery.of(context).size.width * 0.7;
 
                           // if there is more space available, increase card width
                           if (constraints.maxWidth >= 600) {
-                            cardWidth = constraints.maxWidth / 4;
+                            cardWidth = constraints.maxWidth / 3;
                           }
                           // return results in scrollable list view
                           return ListView.builder(

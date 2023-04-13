@@ -40,7 +40,7 @@ class RecipeCard extends StatelessWidget {
                 child: CachedNetworkImage(
                   imageUrl: recipe.image,
                   width: double.infinity,
-                  height: 150,
+                  height: 175,
                   fit: BoxFit.cover,
                   // account for error loading image with icon as placeholder
                   errorWidget: (context, url, error) => const Icon(Icons.error),
