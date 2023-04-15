@@ -48,16 +48,20 @@ class RecipeCard extends StatelessWidget {
               ),
               // space between image and text
               const SizedBox(height: 8),
-              // recipe title
-              Text(
-                recipe.label,
-                style: Theme.of(context).textTheme.titleMedium,
-                maxLines: 1,
-                // in case of overflow account for it with ellipsis(3 dots)
-                overflow: TextOverflow.ellipsis,
+              // wrap label inside Expanded widget to still show full text in case of longer labels without overflow (expanded will use all the available space)
+              Expanded(
+                // recipe source
+                child: Text(
+                  recipe.label,
+                  style: Theme.of(context).textTheme.titleMedium,
+                  maxLines: 2,
+                  // in case of overflow account for it with ellipsis(3 dots)
+                  overflow: TextOverflow.ellipsis,
+                ),
               ),
+
               // space between recipe title and source
-              const SizedBox(height: 8),
+              // const SizedBox(height: 8),
               // have source and heart icon appear on same line
               Row(
                 // spread source and icon apart
