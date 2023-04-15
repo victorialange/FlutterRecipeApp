@@ -21,6 +21,7 @@ class RecipeDetailsScreen extends StatelessWidget {
           children: [
             Image.network(
               recipe.image,
+              fit: BoxFit.cover,
               // adding in error image in case image fails to load
               errorBuilder: (context, error, stackTrace) =>
                   const Icon(Icons.error),
