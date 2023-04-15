@@ -9,7 +9,7 @@ class RecipeSearchBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 16),
+      padding: const EdgeInsets.only(right: 2.5, left: 7),
       // text field for user inpute
       child: TextField(
         decoration: InputDecoration(
