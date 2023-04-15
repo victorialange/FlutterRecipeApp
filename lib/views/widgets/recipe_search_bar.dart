@@ -13,9 +13,18 @@ class RecipeSearchBar extends StatelessWidget {
       // text field for user inpute
       child: TextField(
         decoration: InputDecoration(
+          filled: true,
+          fillColor: Colors.white,
           // placeholder text to tell user what to do
           hintText: "Search recipes...",
-          border: const OutlineInputBorder(),
+          border: const OutlineInputBorder(
+            borderRadius: BorderRadius.all(Radius.circular(50.0)),
+            borderSide: BorderSide(color: Colors.white),
+          ),
+          enabledBorder: const OutlineInputBorder(
+            borderRadius: BorderRadius.all(Radius.circular(50.0)),
+            borderSide: BorderSide(color: Colors.white),
+          ),
           suffixIcon: IconButton(
             // search icon
             icon: const Icon(Icons.search),
