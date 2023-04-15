@@ -45,7 +45,7 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Recipe App"),
+        title: const Text("Tastefully Green"),
       ),
       body: Stack(
         children: [
