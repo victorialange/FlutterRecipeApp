@@ -67,10 +67,16 @@ class RecipeCard extends StatelessWidget {
                 // spread source and icon apart
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  // recipe source
-                  Text(
-                    "by ${recipe.source}",
-                    style: Theme.of(context).textTheme.bodySmall,
+                  // wrapping text inside expanded widget to account for longer source string and avoid overflow
+                  Expanded(
+                    // recipe source
+                    child: Text(
+                      "by ${recipe.source}",
+                      style: Theme.of(context).textTheme.bodySmall,
+                      // overflow: TextOverflow.ellipsis,
+                      // maxLines: 2,
+                      softWrap: false,
+                    ),
                   ),
                   // favourite heart icon
                   const Icon(Icons.favorite_border, size: 16),
