@@ -28,9 +28,18 @@ class RecipeCard extends StatelessWidget {
       },
       // recipe card
       child: Card(
-        margin: const EdgeInsets.symmetric(horizontal: 8, vertical: 8),
+        // add rounded borders to card
+        shape: RoundedRectangleBorder(
+          side: BorderSide(
+            color: const Color(0xff91C490).withOpacity(0.2),
+            // width: 5,
+          ),
+          borderRadius: BorderRadius.circular(20),
+        ),
+        borderOnForeground: true,
+        shadowColor: const Color(0xff91C490).withOpacity(0.5),
         child: Padding(
-          padding: const EdgeInsets.all(8),
+          padding: const EdgeInsets.all(10),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisAlignment: MainAxisAlignment.spaceAround,
