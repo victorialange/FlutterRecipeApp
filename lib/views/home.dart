@@ -22,6 +22,9 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   // initialize future list variables _recipes (instance of recipe model)
   late Future<List<Recipe>> _recipes;
+  late Future<List<Recipe>> _breakfastRecipes;
+  late Future<List<Recipe>> _lunchRecipes;
+  late Future<List<Recipe>> _dinnerRecipes;
 
   // define _searchRecipes method that returns a future (recipes list) taking in an optional string argument, where the searchRecipes method gets called on a recipeApi instance with either a string argument or an empty string is the input is null (like this data will appear before the user searches for anything)
   Future<List<Recipe>> _searchRecipes({String? query}) async {
@@ -33,12 +36,51 @@ class _HomeScreenState extends State<HomeScreen> {
     return recipes;
   }
 
+  // method for breakfast recipes
+  Future<List<Recipe>> _getBreakfastRecipes({String? query}) async {
+    // create new RecipeAPI instance
+    RecipeApi recipeApi = RecipeApi();
+    // call fetch method defined in recipeAPi class
+    List<Recipe> breakfastRecipes =
+        await recipeApi.getBreakfastRecipes(query: query ?? "");
+    // return recipe instance populated with data
+    return breakfastRecipes;
+  }
+
+  // method for lunch recipes
+  Future<List<Recipe>> _getLunchRecipes({String? query}) async {
+    // create new RecipeAPI instance
+    RecipeApi recipeApi = RecipeApi();
+    // call fetch method defined in recipeAPi class
+    List<Recipe> lunchRecipes =
+        await recipeApi.getLunchRecipes(query: query ?? "");
+    // return recipe instance populated with data
+    return lunchRecipes;
+  }
+
+  // method for lunch recipes
+  Future<List<Recipe>> _getDinnerRecipes({String? query}) async {
+    // create new RecipeAPI instance
+    RecipeApi recipeApi = RecipeApi();
+    // call fetch method defined in recipeAPi class
+    List<Recipe> dinnerRecipes =
+        await recipeApi.getDinnerRecipes(query: query ?? "");
+    // return recipe instance populated with data
+    return dinnerRecipes;
+  }
+
   @override
   // initialize the state
   void initState() {
     super.initState();
     // set the initial state of the _recipes list to the data retrieved from fetch method with an empty string argument
     _recipes = _searchRecipes(query: "");
+    // breakfast recipes
+    _breakfastRecipes = _getBreakfastRecipes(query: "");
+    // lunch recipes
+    _lunchRecipes = _getLunchRecipes(query: "");
+    // dinner recipes
+    _dinnerRecipes = _getDinnerRecipes(query: "");
   }
 
   @override
@@ -83,6 +125,9 @@ class _HomeScreenState extends State<HomeScreen> {
               RecipeSearchBar(onSearch: (String query) {
                 setState(() {
                   _recipes = _searchRecipes(query: query);
+                  _breakfastRecipes = _getBreakfastRecipes(query: query);
+                  _lunchRecipes = _getLunchRecipes(query: query);
+                  _dinnerRecipes = _getDinnerRecipes(query: query);
                 });
               }),
               // space between search bar and fetch results
@@ -207,12 +252,12 @@ class _HomeScreenState extends State<HomeScreen> {
                         builder:
                             (BuildContext context, BoxConstraints constraints) {
                           return FutureBuilder(
-                            future: _recipes,
+                            future: _breakfastRecipes,
                             builder:
                                 (BuildContext context, AsyncSnapshot snapshot) {
                               if (snapshot.hasData) {
                                 // use snapshot data as List<Recipe> widget stored in recipes variable
-                                List<Recipe> recipes =
+                                List<Recipe> breakfastRecipes =
                                     snapshot.data as List<Recipe>;
                                 // define cardWidth based on constraints
                                 double cardWidth = constraints.maxWidth / 1.5;
@@ -227,14 +272,15 @@ class _HomeScreenState extends State<HomeScreen> {
                                 return ListView.builder(
                                   // display results in horizontal scrollable list
                                   scrollDirection: Axis.horizontal,
-                                  itemCount: recipes.length,
+                                  itemCount: breakfastRecipes.length,
                                   itemBuilder: (context, index) {
                                     // set size restrictions
                                     return SizedBox(
                                       // height: 50,
                                       width: cardWidth,
                                       // padding: const EdgeInsets.symmetric(horizontal: 8),
-                                      child: RecipeCard(recipe: recipes[index]),
+                                      child: RecipeCard(
+                                          recipe: breakfastRecipes[index]),
                                     );
                                   },
                                 );
@@ -285,12 +331,12 @@ class _HomeScreenState extends State<HomeScreen> {
                         builder:
                             (BuildContext context, BoxConstraints constraints) {
                           return FutureBuilder(
-                            future: _recipes,
+                            future: _lunchRecipes,
                             builder:
                                 (BuildContext context, AsyncSnapshot snapshot) {
                               if (snapshot.hasData) {
                                 // use snapshot data as List<Recipe> widget stored in recipes variable
-                                List<Recipe> recipes =
+                                List<Recipe> lunchRecipes =
                                     snapshot.data as List<Recipe>;
                                 // define cardWidth based on constraints
                                 double cardWidth = constraints.maxWidth / 1.5;
@@ -305,14 +351,94 @@ class _HomeScreenState extends State<HomeScreen> {
                                 return ListView.builder(
                                   // display results in horizontal scrollable list
                                   scrollDirection: Axis.horizontal,
-                                  itemCount: recipes.length,
+                                  itemCount: lunchRecipes.length,
                                   itemBuilder: (context, index) {
                                     // set size restrictions
                                     return SizedBox(
                                       // height: 50,
                                       width: cardWidth,
                                       // padding: const EdgeInsets.symmetric(horizontal: 8),
-                                      child: RecipeCard(recipe: recipes[index]),
+                                      child: RecipeCard(
+                                          recipe: lunchRecipes[index]),
+                                    );
+                                  },
+                                );
+                              }
+                              // if there is an error display the specific error message
+                              else if (snapshot.hasError) {
+                                return Center(child: Text("${snapshot.error}"));
+                              }
+                              // if data hasn't been retreived yet (connectionState is pending/waiting, display progress indicator)
+                              return const Center(
+                                  child: CircularProgressIndicator());
+                            },
+                          );
+                        },
+                      ),
+                    ),
+                    // space between lunch recipes list and dinner recipe heading
+                    const SizedBox(height: 16),
+                    // dinner recipes heading
+                    Padding(
+                      padding: const EdgeInsets.only(left: 7.5, right: 2.5),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        mainAxisSize: MainAxisSize.max,
+                        children: const [
+                          Text(
+                            "Dinner recipes",
+                            textAlign: TextAlign.start,
+                            style: TextStyle(
+                                fontWeight: FontWeight.bold, fontSize: 20),
+                          ),
+                          Text(
+                            "See all",
+                            style: TextStyle(
+                                color: Color(0xff0B9A61),
+                                fontWeight: FontWeight.bold,
+                                fontSize: 16),
+                          ),
+                        ],
+                      ),
+                    ),
+                    // dinner recipes list
+                    SizedBox(
+                      height: 275,
+                      // LayoutBuilder widget to get the constraints of the parent widget and passing those constraints to ListView, so that it knows how much horizontal space available
+                      // wrap recipe card with fixed width of cardWidth (depending on width of the screen)
+                      child: LayoutBuilder(
+                        builder:
+                            (BuildContext context, BoxConstraints constraints) {
+                          return FutureBuilder(
+                            future: _dinnerRecipes,
+                            builder:
+                                (BuildContext context, AsyncSnapshot snapshot) {
+                              if (snapshot.hasData) {
+                                // use snapshot data as List<Recipe> widget stored in recipes variable
+                                List<Recipe> dinnerRecipes =
+                                    snapshot.data as List<Recipe>;
+                                // define cardWidth based on constraints
+                                double cardWidth = constraints.maxWidth / 1.5;
+                                // double cardWidth =
+                                //     MediaQuery.of(context).size.width * 0.7;
+
+                                // if there is more space available, increase card width
+                                if (constraints.maxWidth >= 600) {
+                                  cardWidth = constraints.maxWidth / 3;
+                                }
+                                // return results in scrollable list view
+                                return ListView.builder(
+                                  // display results in horizontal scrollable list
+                                  scrollDirection: Axis.horizontal,
+                                  itemCount: dinnerRecipes.length,
+                                  itemBuilder: (context, index) {
+                                    // set size restrictions
+                                    return SizedBox(
+                                      // height: 50,
+                                      width: cardWidth,
+                                      // padding: const EdgeInsets.symmetric(horizontal: 8),
+                                      child: RecipeCard(
+                                          recipe: dinnerRecipes[index]),
                                     );
                                   },
                                 );
