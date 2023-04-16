@@ -51,6 +51,8 @@ class RecipeApi {
     return recipes;
   }
 
+  // initializing empty breakfast recipes list to keep pupulating with initial page & next page outside of function to compare with dessert recipes and ensure no duplicates
+  List<Recipe> breakfastRecipes = [];
   // getting breakfast recipes
   Future<List<Recipe>> getBreakfastRecipes({required String query}) async {
     String url =
@@ -89,6 +91,8 @@ class RecipeApi {
     return breakfastRecipes;
   }
 
+  // defining lunchRecipes list outside of API call function to check in dinner recipes API call whether recipes are already present in that result
+  List<Recipe> lunchRecipes = [];
   // getting lunch recipes
   Future<List<Recipe>> getLunchRecipes({required String query}) async {
     // initializing empty breakfast recipes list to keep pupulating with initial page & next page
@@ -145,9 +149,17 @@ class RecipeApi {
       // decoding the response
       final data = jsonDecode(response.body);
       // fill instance of recipe model with fetched data
-      final dinnerRecipes = List<Recipe>.from(
-          // all the relevant data is inside the hits list under the recipe map in the response json object
-          data['hits'].map((hit) => Recipe.fromJson(hit['recipe'])));
+      // final dinnerRecipes = List<Recipe>.from(
+      //     // all the relevant data is inside the hits list under the recipe map in the response json object
+      //     data['hits'].map((hit) => Recipe.fromJson(hit['recipe'])));
+      final results = data['hits'];
+
+      for (var result in results) {
+        final dinnerRecipe = Recipe.fromJson(result['recipe']);
+        if (!lunchRecipes.contains(dinnerRecipe)) {
+          dinnerRecipes.add(dinnerRecipe);
+        }
+      }
       return dinnerRecipes;
     }
     // handle fetch error
@@ -174,6 +186,12 @@ class RecipeApi {
       //     data['hits'].map((hit) => Recipe.fromJson(hit['recipe'])));
       final results = data['hits'];
 
+      for (var result in results) {
+        final dessertRecipe = Recipe.fromJson(result['recipe']);
+        if (!breakfastRecipes.contains(dessertRecipe)) {
+          dessertRecipes.add(dessertRecipe);
+        }
+      }
       return dessertRecipes;
     }
     // handle fetch error
