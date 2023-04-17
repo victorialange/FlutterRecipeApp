@@ -18,6 +18,37 @@ class RecipeCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // List<String> stringsToRemove = ['recipe', 'recipes'];
+    final String cleanedLabel;
+    // String cleanedLabel = removeStrings(recipe.label, stringsToRemove);
+    if (recipe.label.contains("recipes") ||
+        recipe.label.contains("Recipes") ||
+        recipe.label.contains("RECIPES")) {
+      cleanedLabel = recipe.label
+          .replaceAll(RegExp('recipes', caseSensitive: false), '')
+          .trim();
+      recipe.label
+          .replaceAll(RegExp('Recipes', caseSensitive: false), '')
+          .trim();
+      recipe.label
+          .replaceAll(RegExp('RECIPES', caseSensitive: false), '')
+          .trim();
+    } else if (recipe.label.contains("recipe") ||
+        recipe.label.contains("Recipe") ||
+        recipe.label.contains("RECIPE")) {
+      cleanedLabel = recipe.label
+          .replaceAll(RegExp('recipe', caseSensitive: false), '')
+          .trim();
+      recipe.label
+          .replaceAll(RegExp('Recipe', caseSensitive: false), '')
+          .trim();
+      recipe.label
+          .replaceAll(RegExp('RECIPE', caseSensitive: false), '')
+          .trim();
+    } else {
+      cleanedLabel = recipe.label;
+    }
+
     // wrap card inside gesture detector to redirect user to recipe details screen upon card tap
     return GestureDetector(
       onTap: () {
@@ -64,7 +95,19 @@ class RecipeCard extends StatelessWidget {
               const SizedBox(height: 8),
               // wrap label inside Expanded widget to still show full text in case of longer labels without overflow (expanded will use all the available space)
               Expanded(
+                child: Directionality(
+                  textDirection: TextDirection.ltr,
+                  child: Text(
+                    cleanedLabel.toString(),
+                    // cleanedLabel,
                     style: GoogleFonts.notoSansDisplay(fontSize: 16.0),
+                    textDirection: TextDirection.ltr,
+                    maxLines: 2,
+                    // in case of overflow account for it with ellipsis(3 dots)
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                ),
+                // recipe source
               ),
 
               // space between recipe title and source

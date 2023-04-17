@@ -10,6 +10,26 @@ class RecipeDetailsScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final String cleanedLabel;
+    // removing redundant recipe or recipes in title
+    if (recipe.label.contains("recipes") ||
+        recipe.label.contains("Recipes") ||
+        recipe.label.contains("RECIPES")) {
+      cleanedLabel =
+          recipe.label.replaceAll(RegExp('recipes', caseSensitive: false), '');
+      recipe.label.replaceAll(RegExp('Recipes', caseSensitive: false), '');
+      recipe.label.replaceAll(RegExp('RECIPES', caseSensitive: false), '');
+    } else if (recipe.label.contains("recipe") ||
+        recipe.label.contains("Recipe") ||
+        recipe.label.contains("RECIPE")) {
+      cleanedLabel =
+          recipe.label.replaceAll(RegExp('recipe', caseSensitive: false), '');
+      recipe.label.replaceAll(RegExp('Recipe', caseSensitive: false), '');
+      recipe.label.replaceAll(RegExp('RECIPE', caseSensitive: false), '');
+    } else {
+      cleanedLabel = recipe.label;
+    }
+
     return Scaffold(
       appBar: AppBar(
         title: Text(recipe.label),
@@ -30,7 +50,7 @@ class RecipeDetailsScreen extends StatelessWidget {
               padding: const EdgeInsets.all(16.0),
               // displaying recipe title user tapped on
               child: Text(
-                recipe.label,
+                cleanedLabel.toString(),
                 style: Theme.of(context).textTheme.headlineSmall,
               ),
             ),
