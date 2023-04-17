@@ -21,12 +21,13 @@ class RecipeApi {
     // while loop to keep calling APi + next href endpoint until at least 40 recipes show up
     while (recipes.length < 40) {
       // only target vegan recipes by specifying health parameter setting it to 'vegan'
-      final response = await http.get(Uri.parse(url));
+      final response = await http.get(Uri.parse(url),
+          headers: {'Content-Type': 'application/json; charset=utf-8'});
 
       // checking if response status code ok
       if (response.statusCode == 200) {
         // decoding the response
-        final data = jsonDecode(response.body);
+        final data = jsonDecode(utf8.decode(response.bodyBytes));
         final results = data['hits'];
 
         for (var result in results) {
@@ -60,11 +61,12 @@ class RecipeApi {
 
     while (breakfastRecipes.length < 40) {
       // only target vegan recipes by specifying health parameter setting it to 'vegan'
-      final response = await http.get(Uri.parse(url));
+      final response = await http.get(Uri.parse(url),
+          headers: {'Content-Type': 'application/json; charset=utf-8'});
       // checking if response status code ok
       if (response.statusCode == 200) {
         // decoding the response
-        final data = jsonDecode(response.body);
+        final data = jsonDecode(utf8.decode(response.bodyBytes));
         // fill instance of recipe model with fetched data
         // final breakfastRecipes = List<Recipe>.from(
         //     // all the relevant data is inside the hits list under the recipe map in the response json object
@@ -101,12 +103,13 @@ class RecipeApi {
 
     while (lunchRecipes.length < 40) {
       // only target vegan recipes by specifying health parameter setting it to 'vegan'
-      final response = await http.get(Uri.parse(url));
+      final response = await http.get(Uri.parse(url),
+          headers: {'Content-Type': 'application/json; charset=utf-8'});
 
       // checking if response status code ok
       if (response.statusCode == 200) {
         // decoding the response
-        final data = jsonDecode(response.body);
+        final data = jsonDecode(utf8.decode(response.bodyBytes));
         // fill instance of recipe model with fetched data
         // final lunchRecipes = List<Recipe>.from(
         //     // all the relevant data is inside the hits list under the recipe map in the response json object
@@ -142,12 +145,13 @@ class RecipeApi {
     String url =
         '$_baseUrl?type=public&q=$query&app_id=$_appId&app_key=$_appKey&health=vegan&mealType=Dinner&dishType=Main%20course&dishType=Soup&random=true&tag=vegan';
     // only target vegan recipes by specifying health parameter setting it to 'vegan'
-    final response = await http.get(Uri.parse(url));
+    final response = await http.get(Uri.parse(url),
+        headers: {'Content-Type': 'application/json; charset=utf-8'});
 
     // checking if response status code ok
     if (response.statusCode == 200) {
       // decoding the response
-      final data = jsonDecode(response.body);
+      final data = jsonDecode(utf8.decode(response.bodyBytes));
       // fill instance of recipe model with fetched data
       // final dinnerRecipes = List<Recipe>.from(
       //     // all the relevant data is inside the hits list under the recipe map in the response json object
@@ -174,12 +178,13 @@ class RecipeApi {
     String url =
         '$_baseUrl?type=public&q=$query&app_id=$_appId&app_key=$_appKey&health=vegan&dishType=Desserts&dishType=Sweets&random=true&tag=vegan';
     // only target vegan recipes by specifying health parameter setting it to 'vegan'
-    final response = await http.get(Uri.parse(url));
+    final response = await http.get(Uri.parse(url),
+        headers: {'Content-Type': 'application/json; charset=utf-8'});
 
     // checking if response status code ok
     if (response.statusCode == 200) {
       // decoding the response
-      final data = jsonDecode(response.body);
+      final data = jsonDecode(utf8.decode(response.bodyBytes));
       // fill instance of recipe model with fetched data
       // final dinnerRecipes = List<Recipe>.from(
       //     // all the relevant data is inside the hits list under the recipe map in the response json object
