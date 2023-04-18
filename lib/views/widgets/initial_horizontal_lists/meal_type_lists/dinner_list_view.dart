@@ -74,7 +74,7 @@ class _DinnerListState extends State<DinnerList> {
                 return Center(child: Text("${snapshot.error}"));
               }
               // if data hasn't been retreived yet (connectionState is pending/waiting, display progress indicator)
-              return const Center(child: CircularProgressIndicator());
+              return const Center(child: LinearProgressIndicator());
             },
           );
         },
