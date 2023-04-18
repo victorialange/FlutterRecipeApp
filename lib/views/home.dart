@@ -24,14 +24,35 @@ class _HomeScreenState extends State<HomeScreen> {
   bool _isLoading = false;
   late List<Recipe> _searchedRecipes = [];
   String _query = "";
+  final TextEditingController _searchController = TextEditingController();
 
   Future<void> _getRecipes(String query) async {
+    // loading at the start and before obtaining data gets set to true
+    setState(() {
+      _isLoading = true;
+    });
     final recipeApi = RecipeApi();
-    _isLoading = true;
     final searchedRecipes = await recipeApi.searchRecipes(query);
+
+    // state gets updated again here, after having retreived data loading gets set to false again
     setState(() {
       _searchedRecipes = searchedRecipes;
       _isLoading = false;
+    });
+  }
+
+  // handle search method where query variable gets updated to passed in user input
+  void _handleSearch(String query) {
+    setState(() {
+      _query = query;
+    });
+  }
+
+  // clear search method where state gets updated to query of empty string (will cause initial data to show up)
+  void _clearSearch() {
+    setState(() {
+      _query = '';
+      _searchedRecipes = [];
     });
   }
 
@@ -51,6 +72,10 @@ class _HomeScreenState extends State<HomeScreen> {
       ),
       body: Stack(
         children: [
+          RecipeSearchBar(
+              onSearch: _handleSearch,
+              onClose: _clearSearch,
+              controller: _searchController),
           Container(
             height: MediaQuery.of(context).size.height,
             width: MediaQuery.of(context).size.width,
@@ -82,10 +107,14 @@ class _HomeScreenState extends State<HomeScreen> {
               // extra space between text and search bar
               const SizedBox(height: 16),
               // using recipe search bar widget, onSearch gets assigned a anonymous function that takes in the user input (string argument) and updates the state of the _recipes list, calling the fetch method defined in the API class, with the user input as the string argument (initial state called fetch method with empty string)
-              RecipeSearchBar(onSearch: (String query) {
-                _query = query;
-                _getRecipes(query);
-              }),
+              RecipeSearchBar(
+                onSearch: (String query) {
+                  _query = query;
+                  _getRecipes(query);
+                },
+                onClose: _clearSearch,
+                controller: _searchController,
+              ),
               // space between search bar and fetch results
               const SizedBox(height: 16),
               if (_query.isEmpty)
