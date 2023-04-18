@@ -112,7 +112,8 @@ class RecipeCard extends StatelessWidget {
                   child: Text(
                     cleanedLabel.toString(),
                     // cleanedLabel,
-                    style: GoogleFonts.notoSansDisplay(fontSize: 16.0),
+                    style: GoogleFonts.notoSansDisplay(
+                        fontSize: 16.0, fontWeight: FontWeight.w500),
                     textDirection: TextDirection.ltr,
                     maxLines: 2,
                     // in case of overflow account for it with ellipsis(3 dots)
@@ -141,7 +142,12 @@ class RecipeCard extends StatelessWidget {
                     ),
                   ),
                   // favourite heart icon
-                  const Icon(Icons.favorite_border, size: 16),
+                  const Icon(
+                    Icons.favorite_border,
+                    size: 16,
+                    semanticLabel:
+                        "Press this icon to save this recipe to your favourites",
+                  ),
                 ],
               ),
             ],
