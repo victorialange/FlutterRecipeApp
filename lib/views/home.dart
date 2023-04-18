@@ -21,15 +21,17 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   // initialize future list variables _recipes (instance of recipe model)
   // late Future<List<Recipe>> _searchedRecipes;
-
+  bool _isLoading = false;
   late List<Recipe> _searchedRecipes = [];
   String _query = "";
 
   Future<void> _getRecipes(String query) async {
     final recipeApi = RecipeApi();
+    _isLoading = true;
     final searchedRecipes = await recipeApi.searchRecipes(query);
     setState(() {
       _searchedRecipes = searchedRecipes;
+      _isLoading = false;
     });
   }
 
@@ -93,23 +95,31 @@ class _HomeScreenState extends State<HomeScreen> {
                 )
               // when user searches for recipe return vertical scrollable list of results matching user input
               else
-                SingleChildScrollView(
-                  child: ListView.builder(
-                    semanticChildCount: _searchedRecipes.length,
-                    shrinkWrap: true,
-                    scrollDirection: Axis.vertical,
-                    physics: const NeverScrollableScrollPhysics(),
-                    itemCount: _searchedRecipes.length,
-                    itemBuilder: (context, index) {
-                      return SizedBox(
-                        height: 270,
-                        child: RecipeCard(
-                          recipe: _searchedRecipes[index],
-                        ),
-                      );
-                    },
-                  ),
-                ),
+                _isLoading
+                    ? const LinearProgressIndicator()
+                    : _searchedRecipes.isEmpty && _query.isNotEmpty
+                        ? Column(children: [
+                            const Text("Sorry, no recipes found :("),
+                            Image.network(
+                                'https://media2.giphy.com/media/Yoi7H75JB38dHERFVB/giphy.gif'),
+                          ])
+                        : SingleChildScrollView(
+                            child: ListView.builder(
+                              semanticChildCount: _searchedRecipes.length,
+                              shrinkWrap: true,
+                              scrollDirection: Axis.vertical,
+                              physics: const NeverScrollableScrollPhysics(),
+                              itemCount: _searchedRecipes.length,
+                              itemBuilder: (context, index) {
+                                return SizedBox(
+                                  height: 270,
+                                  child: RecipeCard(
+                                    recipe: _searchedRecipes[index],
+                                  ),
+                                );
+                              },
+                            ),
+                          ),
             ],
           ),
         ],
