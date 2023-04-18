@@ -179,6 +179,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                 ],
                               ),
                             ),
+                            // sad plant gif for 0 search results
                             Image.network(
                                 'https://media2.giphy.com/media/Yoi7H75JB38dHERFVB/giphy.gif'),
                           ])
@@ -194,12 +195,16 @@ class _HomeScreenState extends State<HomeScreen> {
                                         MainAxisAlignment.spaceBetween,
                                     children: [
                                       Expanded(
-                                          child: Text(
-                                        "Your results for '$_query'",
-                                        style: const TextStyle(
-                                            fontSize: 16,
-                                            fontWeight: FontWeight.w500),
-                                      )),
+                                        child: Text(
+                                          // show amount of results for query (if 1, display as result)
+                                          _searchedRecipes.length == 1
+                                              ? "${_searchedRecipes.length} result for '$_query'"
+                                              : "${_searchedRecipes.length} results for '$_query'",
+                                          style: const TextStyle(
+                                              fontSize: 16,
+                                              fontWeight: FontWeight.w500),
+                                        ),
+                                      ),
                                       Expanded(
                                         child: Visibility(
                                           visible:
