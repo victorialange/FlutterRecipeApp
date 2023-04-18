@@ -9,6 +9,8 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:recipe_app/views/recipe_details_screen.dart';
 // import google fonts - todo: add to home screen as theme font potentially (noto sans)
 import 'package:google_fonts/google_fonts.dart';
+// import custom progress indicator to replace circular progress indicator for images
+import 'package:recipe_app/views/widgets/custom_progress_indicator.dart';
 
 class RecipeCard extends StatelessWidget {
   // access data from recipe model
@@ -89,6 +91,16 @@ class RecipeCard extends StatelessWidget {
                   fit: BoxFit.cover,
                   // account for error loading image with icon as placeholder
                   errorWidget: (context, url, error) => const Icon(Icons.error),
+                  // replace default progress indicator with custom one
+                  progressIndicatorBuilder: (context, url, downloadProgress) =>
+                      // return custom progress indicator created from separate file
+                      CustomProgressIndicator(
+                    // display even if nullable
+                    value: downloadProgress.progress ?? 0.0,
+                    // semantic labels for enhanced accessibility
+                    semanticsLabel: 'Loading recipe image',
+                    semanticsValue: '${downloadProgress.progress ?? 0}% loaded',
+                  ),
                 ),
               ),
               // space between image and text

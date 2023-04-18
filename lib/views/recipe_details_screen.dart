@@ -2,6 +2,10 @@
 import 'package:flutter/material.dart';
 // import recipe model to display in UI
 import 'package:recipe_app/models/recipe.dart';
+// import custom progress indicator widget
+import 'package:recipe_app/views/widgets/custom_progress_indicator.dart';
+// import cached network image for increased performance and easier implementation of custom progress indicator for progressIndicator (vs loadingBuilder)
+import 'package:cached_network_image/cached_network_image.dart';
 
 class RecipeDetailsScreen extends StatelessWidget {
   final Recipe recipe;
@@ -39,12 +43,18 @@ class RecipeDetailsScreen extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            Image.network(
-              recipe.image,
+            CachedNetworkImage(
+              imageUrl: recipe.image,
               fit: BoxFit.cover,
-              // adding in error image in case image fails to load
-              errorBuilder: (context, error, stackTrace) =>
-                  const Icon(Icons.error),
+              // account for error loading image with icon as placeholder
+              errorWidget: (context, url, error) => const Icon(Icons.error),
+              // replace default progress indicator with custom one
+              progressIndicatorBuilder: (context, url, downloadProgress) =>
+                  CustomProgressIndicator(
+                value: downloadProgress.progress ?? 0.0,
+                semanticsLabel: 'Loading recipe image',
+                semanticsValue: '${downloadProgress.progress ?? 0}% loaded',
+              ),
             ),
             Padding(
               padding: const EdgeInsets.all(16.0),
