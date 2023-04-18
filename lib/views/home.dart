@@ -153,71 +153,79 @@ class _HomeScreenState extends State<HomeScreen> {
                             Image.network(
                                 'https://media2.giphy.com/media/Yoi7H75JB38dHERFVB/giphy.gif'),
                           ])
-                        : Padding(
-                            padding:
-                                const EdgeInsets.only(left: 7.5, right: 2.5),
-                            child: Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Expanded(
-                                      child: Text(
-                                    "Your results for '$_query'",
-                                    style: const TextStyle(
-                                        fontSize: 16,
-                                        fontWeight: FontWeight.w500),
-                                  )),
-                                  Expanded(
-                                    child: Visibility(
-                                      visible: _query.isNotEmpty && !_isLoading,
-                                      child: Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.end,
-                                        children: [
-                                          TextButton.icon(
-                                            onPressed: _clearSearch,
-                                            label: const Text(
-                                              "Clear Search",
-                                              style: TextStyle(
-                                                  fontSize: 16.0,
-                                                  fontWeight: FontWeight.bold,
+                        :
+                        // if search results are not loading and are not empty and user has submitted search
+                        Column(
+                            children: [
+                              Padding(
+                                padding: const EdgeInsets.only(
+                                    left: 7.5, right: 2.5),
+                                child: Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      Expanded(
+                                          child: Text(
+                                        "Your results for '$_query'",
+                                        style: const TextStyle(
+                                            fontSize: 16,
+                                            fontWeight: FontWeight.w500),
+                                      )),
+                                      Expanded(
+                                        child: Visibility(
+                                          visible:
+                                              _query.isNotEmpty && !_isLoading,
+                                          child: Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.end,
+                                            children: [
+                                              TextButton.icon(
+                                                onPressed: _clearSearch,
+                                                label: const Text(
+                                                  "Clear Search",
+                                                  style: TextStyle(
+                                                      fontSize: 16.0,
+                                                      fontWeight:
+                                                          FontWeight.bold,
+                                                      color: Color(0xff0B9A61),
+                                                      backgroundColor:
+                                                          Color(0xffE3EEE4)),
+                                                ),
+                                                icon: const Icon(
+                                                  Icons.clear,
                                                   color: Color(0xff0B9A61),
-                                                  backgroundColor:
-                                                      Color(0xffE3EEE4)),
-                                            ),
-                                            icon: const Icon(
-                                              Icons.clear,
-                                              color: Color(0xff0B9A61),
-                                              semanticLabel:
-                                                  "Close search and return to home screen",
-                                            ),
-                                          )
-                                        ],
+                                                  semanticLabel:
+                                                      "Close search and return to home screen",
+                                                ),
+                                              )
+                                            ],
+                                          ),
+                                        ),
                                       ),
-                                    ),
-                                  ),
-                                ]),
+                                    ]),
+                              ),
+                              const SizedBox(
+                                height: 8.0,
+                              ),
+                              SingleChildScrollView(
+                                child: ListView.builder(
+                                  semanticChildCount: _searchedRecipes.length,
+                                  shrinkWrap: true,
+                                  scrollDirection: Axis.vertical,
+                                  physics: const NeverScrollableScrollPhysics(),
+                                  itemCount: _searchedRecipes.length,
+                                  itemBuilder: (context, index) {
+                                    return SizedBox(
+                                      height: 270,
+                                      child: RecipeCard(
+                                        recipe: _searchedRecipes[index],
+                                      ),
+                                    );
+                                  },
+                                ),
+                              ),
+                            ],
                           ),
-              const SizedBox(
-                height: 8.0,
-              ),
-              SingleChildScrollView(
-                child: ListView.builder(
-                  semanticChildCount: _searchedRecipes.length,
-                  shrinkWrap: true,
-                  scrollDirection: Axis.vertical,
-                  physics: const NeverScrollableScrollPhysics(),
-                  itemCount: _searchedRecipes.length,
-                  itemBuilder: (context, index) {
-                    return SizedBox(
-                      height: 270,
-                      child: RecipeCard(
-                        recipe: _searchedRecipes[index],
-                      ),
-                    );
-                  },
-                ),
-              ),
             ],
           ),
         ],
