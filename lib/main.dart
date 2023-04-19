@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 // import services package to set preferred device orientation
 import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:recipe_app/views/onboarding_screen.dart';
 // import home.dart to use it as the home screen for MyApp root widget
 import 'firebase_options.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -27,7 +28,7 @@ class MyApp extends StatelessWidget {
         textTheme: GoogleFonts.notoSansTextTheme(),
       ),
       // use HomePage widget from separate file from views folder as home screen
-      home: const HomeScreen(),
+      home: const OnboardingScreen(),
     );
   }
 }
