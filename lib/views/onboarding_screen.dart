@@ -24,12 +24,31 @@ class OnboardingScreen extends StatelessWidget {
             child: Column(
               children: [
                 const Spacer(),
-                const Text(
-                  "Tastefully Green",
+                const SizedBox(
+                  height: 42.0,
+                ),
+                const Text.rich(
+                  TextSpan(
+                    children: <InlineSpan>[
+                      TextSpan(
+                        text: 'Tastefully Green',
+                      ),
+                      WidgetSpan(
+                          child: Icon(
+                        Icons.eco_rounded,
+                        color: Color(0xff0B9A61),
+                        size: 60,
+                      )),
+                    ],
+                  ),
+                  textAlign: TextAlign.start,
                   style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                      fontSize: 20,
-                      color: Color(0xff0B9A61)),
+                    fontSize: 48,
+                    fontWeight: FontWeight.bold,
+                    color: Color(0xff0B9A61),
+                  ),
+                  softWrap: true,
+                  maxLines: 2,
                 ),
                 const Spacer(),
                 SizedBox(
