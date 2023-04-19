@@ -8,6 +8,7 @@ import 'package:recipe_app/services/recipe_api.dart';
 import 'package:recipe_app/views/widgets/initial_horizontal_lists/initial_list_view.dart';
 // import recipe search bar widget
 import 'package:recipe_app/views/widgets/recipe_search_bar.dart';
+import 'package:recipe_app/views/widgets/recipe_card.dart';
 
 // todo: import google fonts (for example Roboto) to get rid of weird character issue with ingredients due to current default font not supporting all unicodes
 
