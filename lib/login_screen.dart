@@ -100,36 +100,8 @@ class _LoginScreenState extends State<LoginScreen> {
                     SizedBox(
                       width: double.infinity,
                       child: ElevatedButton(
-                        onPressed: () async {
-                          try {
-                            final UserCredential userCredential =
-                                await FirebaseAuth.instance
-                                    .signInWithEmailAndPassword(
-                              email: _emailController.text.trim(),
-                              password: _passwordController.text.trim(),
-                            );
-                            print(
-                                "User logged in: ${userCredential.user!.uid}");
-
-                            // Navigate to HomePage after successful login
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => const HomeScreen()),
-                            );
-                          } catch (e) {
-                            if (e is FirebaseAuthException) {
-                              if (e.code == 'user-not-found') {
-                                print('No user found for that email.');
-                              } else if (e.code == 'wrong-password') {
-                                print('Wrong password provided for that user.');
-                              } else {
-                                print('Error: ${e.message}');
-                              }
-                            } else {
-                              print('Error: $e');
-                            }
-                          }
+                        onPressed: () {
+                          _signInUser();
                         },
                         child: const Text("Sign In"),
                       ),
@@ -144,32 +116,32 @@ class _LoginScreenState extends State<LoginScreen> {
     );
   }
 
-  // Future<void> _signInUser() async {
-  //   try {
-  //     final UserCredential userCredential =
-  //         await FirebaseAuth.instance.signInWithEmailAndPassword(
-  //       email: _emailController.text.trim(),
-  //       password: _passwordController.text.trim(),
-  //     );
-  //     print("User logged in: ${userCredential.user!.uid}");
+  Future<void> _signInUser() async {
+    try {
+      final UserCredential userCredential =
+          await FirebaseAuth.instance.signInWithEmailAndPassword(
+        email: _emailController.text.trim(),
+        password: _passwordController.text.trim(),
+      );
+      print("User logged in: ${userCredential.user!.uid}");
 
-  //     // Navigate to HomePage after successful login
-  //     Navigator.push(
-  //       context,
-  //       MaterialPageRoute(builder: (context) => const HomeScreen()),
-  //     );
-  //   } catch (e) {
-  //     if (e is FirebaseAuthException) {
-  //       if (e.code == 'user-not-found') {
-  //         print('No user found for that email.');
-  //       } else if (e.code == 'wrong-password') {
-  //         print('Wrong password provided for that user.');
-  //       } else {
-  //         print('Error: ${e.message}');
-  //       }
-  //     } else {
-  //       print('Error: $e');
-  //     }
-  //   }
-  // }
+      // Navigate to HomePage after successful login
+      Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) => const HomeScreen()),
+      );
+    } catch (e) {
+      if (e is FirebaseAuthException) {
+        if (e.code == 'user-not-found') {
+          print('No user found for that email.');
+        } else if (e.code == 'wrong-password') {
+          print('Wrong password provided for that user.');
+        } else {
+          print('Error: ${e.message}');
+        }
+      } else {
+        print('Error: $e');
+      }
+    }
+  }
 }
