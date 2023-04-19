@@ -42,7 +42,7 @@ class OnboardingScreen extends StatelessWidget {
                       ),
                     ),
                     style: TextButton.styleFrom(
-                        backgroundColor: const Color(0xFF6CD8D1)),
+                        backgroundColor: Colors.lightGreen),
                     child: const Text("Sign Up"),
                   ),
                 ),
@@ -61,7 +61,7 @@ class OnboardingScreen extends StatelessWidget {
                         elevation: 0,
                         backgroundColor: Colors.transparent,
                         shape: const RoundedRectangleBorder(
-                          side: BorderSide(color: Color(0xFF6CD8D1)),
+                          side: BorderSide(color: Colors.lightGreen),
                         ),
                       ),
                       child: const Text("Sign In"),
