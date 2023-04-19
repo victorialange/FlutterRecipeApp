@@ -102,6 +102,8 @@ class _LoginScreenState extends State<LoginScreen> {
                       child: ElevatedButton(
                         onPressed: () {
                           _signInUser();
+                          _emailController.clear();
+                          _passwordController.clear();
                         },
                         child: const Text("Sign In"),
                       ),

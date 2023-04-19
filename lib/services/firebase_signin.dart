@@ -135,6 +135,9 @@ class _RegistrationFormState extends State<RegistrationForm> {
                             // It saved our inputs
                             _registerUser();
                             _formKey.currentState!.save();
+                            _nameController.clear();
+                            _emailController.clear();
+                            _passwordController.clear();
                           }
                         },
                         child: const Text("Sign Up"),
