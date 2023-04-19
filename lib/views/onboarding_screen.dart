@@ -16,6 +16,7 @@ class OnboardingScreen extends StatelessWidget {
       children: [
         Image.network(
           'https://images.pexels.com/photos/5946083/pexels-photo-5946083.jpeg?auto=compress&cs=tinysrgb&w=600',
+          fit: BoxFit.cover,
         ),
         SafeArea(
           child: Padding(

@@ -31,6 +31,7 @@ class _RegistrationFormState extends State<RegistrationForm> {
         children: [
           Image.network(
             'https://images.squarespace-cdn.com/content/v1/562d08fee4b072888c2d4110/1538001622543-EI6C4BZ1ZBD2047ZFFYV/katherine-chase-518230-unsplash.jpg?format=1500w',
+            fit: BoxFit.cover,
             height: MediaQuery.of(context).size.height,
           ),
           Center(

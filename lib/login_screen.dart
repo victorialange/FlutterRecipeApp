@@ -34,6 +34,7 @@ class _LoginScreenState extends State<LoginScreen> {
           Image.network(
             'https://images.squarespace-cdn.com/content/v1/562d08fee4b072888c2d4110/1538001622543-EI6C4BZ1ZBD2047ZFFYV/katherine-chase-518230-unsplash.jpg?format=1500w',
             height: MediaQuery.of(context).size.height,
+            fit: BoxFit.cover,
           ),
           Padding(
             padding:
